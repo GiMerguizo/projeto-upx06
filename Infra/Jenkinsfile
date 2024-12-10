@@ -30,7 +30,8 @@ pipeline {
                     steps {
                         echo 'Realizando build do Frontend...'
                         sh 'pwd && ls'
-                        sh 'cd Front && ng serve'
+                        sh 'cd Front && pwd'
+                        sh 'cd /Front/dist/projeto-upx06/ && pwd'
                     }
                 }
                 /*stage('Build Backend') {
