@@ -29,7 +29,8 @@ pipeline {
                 stage('Build Frontend') {
                     steps {
                         echo 'Realizando build do Frontend...'
-                        //sh 'cd Front && ng serve'
+                        sh 'pwd && ls'
+                        sh 'cd Front && ng serve'
                     }
                 }
                 /*stage('Build Backend') {
@@ -57,7 +58,7 @@ pipeline {
                 ]]) {
                     echo 'Fazendo upload dos arquivos para o S3...'
                     sh '''
-                    aws s3 sync . s3://projeto-upx06 --delete
+                    aws s3 sync Front/dist/projeto-upx06/ s3://projeto-upx06/
                     '''
                 }
             }
