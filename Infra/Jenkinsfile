@@ -17,9 +17,9 @@ pipeline {
                 // Adicione comandos para build (ex.: npm build ou webpack)
                 //sh 'npm install'
                 //sh 'sudo npm install -g @angular/cli'
-                sh 'cd Front/src'
+                // sh 'cd Front/src'
                 sh 'pwd'
-                sh 'ng serve'
+                // sh 'ng serve'
                 echo 'Build concluído!'
             }
         }
@@ -44,7 +44,10 @@ pipeline {
 
         stage('Invalidar Cache do CloudFront') {
             steps {
-                script {
+                withCredentials([[
+                    $class: 'AmazonWebServicesCredentialsBinding',
+                    credentialsId: 'aws-access-key', // ID configurado no Jenkins
+                ]]) {
                     sh '''
                     aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DIST_ID --paths "/*"
                     '''
