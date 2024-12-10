@@ -8,10 +8,11 @@ const pool = new pg.Pool({
     password: 'EFB3FCcl',
     port: 5432,
   });
-const createGestor = async (nome_completo, data_nascimento, email, senha, username, empresa) => { 
+
+const createGestor = async (nome_completo, data_nascimento, email, senha, setor, tipo_usuario, empresa_id ) => { 
   const result = await pool.query(
-    'INSERT INTO gestor (nome_completo, data_nascimento, email, senha, username, empresa) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id', 
-    [nome_completo, data_nascimento, email, senha, username, empresa] 
+    'INSERT INTO gestor (nome_completo, data_nascimento, email, senha, setor, tipo_usuario, empresa_id ) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id', 
+    [nome_completo, data_nascimento, email, senha, setor,  tipo_usuario, empresa_id ] 
   );
   return result.rows[0].id;
 };
@@ -26,11 +27,11 @@ const getGestorByEmail = async (email) => {
   }
 };
 
-const updateGestor = async (id, nome_completo, data_nascimento, email, senha, username, empresa) => {
+const updateGestor = async (id, nome_completo, data_nascimento, email, senha, setor) => {
   try {
     const result = await pool.query(
-      'UPDATE gestor SET nome_completo = $1, data_nascimento = $2, email = $3, senha = $4, username = $5, empresa = $6 WHERE id = $7',
-      [nome_completo, data_nascimento, email, senha, username, empresa, id]
+      'UPDATE gestor SET nome_completo = $1, data_nascimento = $2, email = $3, senha = $4, setor = $5 WHERE id = $6',
+      [nome_completo, data_nascimento, email, senha, setor, id]
     );
     return result.rowCount === 1;
   } catch (error) {
@@ -61,11 +62,33 @@ const getAllGestores = async () => {
 
 const getGestorById = async (id) => {
   try {
-    const result = await pool.query('SELECT * FROM gestor WHERE id = $1', [id]);
+    const result = await pool.query(`
+      SELECT g.*, e.nome AS nome_empresa 
+      FROM gestor g
+      JOIN empresa e ON g.empresa_id = e.id
+      WHERE g.id = $1
+    `, [id]);
     return result.rows[0];
   } catch (error) {
     console.error('Erro ao buscar gestor por ID:', error);
     throw new Error('Erro ao buscar gestor no banco de dados.');
+  }
+};
+
+
+const getEstagiariosDoGestor = async (gestorId) => {
+  try {
+    const result = await pool.query(`
+      SELECT e.*
+      FROM estagiario e
+      JOIN estagiario_gestor eg ON e.id = eg.estagiario_id
+      JOIN gestor g ON eg.gestor_id = g.id
+      WHERE eg.gestor_id = $1 AND e.empresa_id = g.empresa_id
+    `, [gestorId]);
+    return result.rows;
+  } catch (error) {
+    console.error('Erro ao buscar estagiários do gestor:', error);
+    throw new Error('Erro ao buscar estagiários do gestor no banco de dados.');
   }
 };
 
@@ -77,5 +100,6 @@ module.exports = {
   deleteGestor,
   getAllGestores,
   getGestorById,
+  getEstagiariosDoGestor,
   pool,
 };

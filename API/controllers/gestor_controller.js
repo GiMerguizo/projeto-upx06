@@ -3,13 +3,13 @@ const jwt = require('jsonwebtoken');
 const pool = require('../models/gestorModel'); // Alterado para professorModel
 
 const registrar = async (req, res) => {
-  const { nome_completo, data_nascimento, email, senha, username, empresa } = req.body; // Adicionado empresa
+  const { nome_completo, data_nascimento, email, senha, setor} = req.body; // Adicionado empresa
 
   try {
     // Hash da senha
     const hashedPassword = await bcrypt.hash(senha, 10);
 
-    const gestorId = await pool.createGestor(nome_completo, data_nascimento, email, hashedPassword, username, empresa);
+    const gestorId = await pool.createGestor(nome_completo, data_nascimento, email, hashedPassword, setor);
 
     const token = jwt.sign({ gestorId }, 'EFB3FCcl'); // Alterado para gestorId
 
@@ -76,7 +76,7 @@ const buscarGestorPorId = async (req, res) => {
 
 const editarGestor = async (req, res) => {
   const gestorId = parseInt(req.params.id, 10);
-  const { nome_completo, data_nascimento, email, senha, username, empresa } = req.body;
+  const { nome_completo, data_nascimento, email, senha, setor} = req.body;
 
   try {
     // Hash da senha, se necessário
@@ -89,8 +89,7 @@ const editarGestor = async (req, res) => {
       data_nascimento,
       email,
       senhaAtualizada,
-      username,
-      empresa
+      setor
     );
 
     if (gestorAtualizado) {
@@ -104,10 +103,42 @@ const editarGestor = async (req, res) => {
   }
 };
 
+const getPerfilGestor = async (req, res) => {
+  const gestorId = req.usuario.gestorId;
+
+  try {
+    const gestor = await pool.getGestorById(gestorId);
+    if (gestor) {
+      res.status(200).json(gestor);
+    } else {
+      res.status(404).json({ message: 'Gestor não encontrado.' });
+    }
+  } catch (error) {
+    console.error('Erro ao buscar perfil do gestor:', error);
+    res.status(500).json({ message: 'Erro ao buscar perfil do gestor.' });
+  }
+};
+
+const getEstagiarios = async (req, res) => {
+  const gestorId = req.usuario.gestorId;
+
+  try {
+    const estagiarios = await pool.getEstagiariosDoGestor(gestorId);
+    console.log('Estagiários:', estagiarios); 
+    res.status(200).json(estagiarios);
+  } catch (error) {
+    console.error('Erro ao buscar estagiários:', error);
+    res.status(500).json({ message: 'Erro ao buscar estagiários.' });
+  }
+};
+
+
 module.exports = {
   registrar,
   listarGestores,
   excluirGestor,
   buscarGestorPorId,
   editarGestor,
+  getEstagiarios,
+  getPerfilGestor
 };
