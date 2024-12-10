@@ -35,7 +35,7 @@ pipeline {
                 stage('Build Backend') {
                     steps {
                         echo 'Realizando build do Backend...'
-                        sh 'cd API && node serve.js'
+                        sh 'cd API && node server.js'
                     }
                 }
             }
