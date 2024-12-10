@@ -56,7 +56,7 @@ pipeline {
             steps {
                 withCredentials([[
                     $class: 'AmazonWebServicesCredentialsBinding',
-                    credentialsId: 'minhas-credenciais-aws', // ID configurado no Jenkins
+                    credentialsId: 'aws-access-key', // ID configurado no Jenkins
                 ]]) {
                     echo 'Upload para o S3'
                     sh '''
@@ -70,7 +70,7 @@ pipeline {
             steps {
                 withCredentials([[
                     $class: 'AmazonWebServicesCredentialsBinding',
-                    credentialsId: 'aws-credentials', // Substitua pelo ID configurado
+                    credentialsId: 'aws-secret-key', // Substitua pelo ID configurado
                 ]]) {
                     sh '''
                     aws cloudfront create-invalidation --distribution-id E2QHBGXQGTL4XZ --paths /*
