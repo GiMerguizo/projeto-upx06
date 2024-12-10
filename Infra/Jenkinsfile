@@ -18,10 +18,10 @@ pipeline {
             steps {
                 echo 'Instalando dependências do frontend e backend...'
                 //sh 'sudo npm install -g @angular/cli'
-                sh 'npm install @angular/cli'
-                sh './node_modules/.bin/ng build --prod'
-                sh 'cd Front && npm install'
-                sh 'cd API && npm install'
+                //sh 'npm install @angular/cli'
+                //sh './node_modules/.bin/ng build --prod'
+                //sh 'cd Front && npm install'
+                //sh 'cd API && npm install'
             }
         }
         stage('Build') {
@@ -29,13 +29,13 @@ pipeline {
                 stage('Build Frontend') {
                     steps {
                         echo 'Realizando build do Frontend...'
-                        sh 'cd Front && ng build --prod --output-path=dist'
+                        sh 'cd Front && ng serve'
                     }
                 }
                 stage('Build Backend') {
                     steps {
                         echo 'Realizando build do Backend...'
-                        sh 'cd API && npm run build' // Certifique-se de que existe um script de build
+                        sh 'cd API && node serve.js'
                     }
                 }
             }
