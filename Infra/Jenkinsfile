@@ -56,11 +56,11 @@ pipeline {
             steps {
                 withCredentials([[
                     $class: 'AmazonWebServicesCredentialsBinding',
-                    credentialsId: 'aws-access-key', // ID configurado no Jenkins
+                    credentialsId: 'minhas-credenciais-aws', // ID configurado no Jenkins
                 ]]) {
-                    echo 'Fazendo upload dos arquivos para o S3...'
+                    echo 'Upload para o S3'
                     sh '''
-                    aws s3 sync Front/dist/projeto-upx06/ s3://projeto-upx06/
+                    aws s3 sync . s3://projeto-upx06 --delete
                     '''
                 }
             }
