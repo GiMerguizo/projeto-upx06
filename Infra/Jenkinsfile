@@ -70,15 +70,14 @@ pipeline {
             steps {
                 withCredentials([[
                     $class: 'AmazonWebServicesCredentialsBinding',
-                    credentialsId: 'aws-access-key', // ID configurado no Jenkins
+                    credentialsId: 'aws-credentials', // Substitua pelo ID configurado
                 ]]) {
-                    echo 'Invalidando cache do CloudFront...'
                     sh '''
-                    aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DIST_ID --paths "/*"
+                    aws cloudfront create-invalidation --distribution-id E2QHBGXQGTL4XZ --paths /*
                     '''
-                }
-            }
         }
+    }
+}
     }
     post {
         success {
