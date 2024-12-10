@@ -17,7 +17,7 @@ pipeline {
         stage('Preparar ambiente') {
             steps {
                 echo 'Instalando dependências do frontend e backend...'
-                sh 'npm install -g @angular/cli'
+                sh 'sudo npm install -g @angular/cli'
                 sh 'cd Front && npm install'
                 sh 'cd API && npm install'
             }
