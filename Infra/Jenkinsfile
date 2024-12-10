@@ -31,18 +31,18 @@ pipeline {
                         echo 'Realizando build do Frontend...'
                         sh 'pwd && ls'
                         sh 'cd Front && pwd'
-                        sh 'cd /Front/dist/projeto-upx06/ && pwd'
+                        sh 'ls'
                     }
                 }
-                /*stage('Build Backend') {
+                stage('Build Backend') {
                     steps {
                         echo 'Realizando build do Backend...'
-                        sh 'cd API'
+                        sh 'ls && cd API && ls'
                         sh 'pwd'
-                        sh 'npm install'
-                        sh 'node server.js'
+                        //sh 'npm install'
+                        //sh 'node server.js'
                     }
-                }*/
+                }
             }
         }
         /*stage('Testar AWS CLI') {
