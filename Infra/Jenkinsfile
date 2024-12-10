@@ -31,7 +31,7 @@ pipeline {
                         echo 'Realizando build do Frontend...'
                         sh 'pwd && ls'
                         sh 'cd Front && pwd'
-                        sh 'cd src && pwd'
+                        // sh 'cd src && pwd'
                         sh 'ng serve'
                     }
                 }
