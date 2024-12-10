@@ -15,8 +15,8 @@ pipeline {
         stage('Build') {
             steps {
                 // Adicione comandos para build (ex.: npm build ou webpack)
-                sh 'npm install'
-                sh 'sudo npm install -g @angular/cli'
+                //sh 'npm install'
+                //sh 'sudo npm install -g @angular/cli'
                 sh 'ng serve'
                 echo 'Build concluído!'
             }
