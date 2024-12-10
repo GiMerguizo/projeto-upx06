@@ -16,7 +16,7 @@ pipeline {
             steps {
                 // Adicione comandos para build (ex.: npm build ou webpack)
                 sh 'npm install'
-                sh 'ng serve'
+                sh 'npm run build'
                 echo 'Build concluído!'
             }
         }
