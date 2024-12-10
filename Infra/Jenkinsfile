@@ -18,12 +18,8 @@ pipeline {
             steps {
                 echo 'Instalando dependências do frontend e backend...'
                 //sh 'sudo npm install -g @angular/cli'
-                sh '''
-                    mkdir -p ~/.npm-global
-                    npm config set prefix '~/.npm-global'
-                    export PATH=$PATH:~/.npm-global/bin
-                    npm install -g @angular/cli
-                '''
+                sh 'npm install @angular/cli'
+                sh './node_modules/.bin/ng build --prod'
                 sh 'cd Front && npm install'
                 sh 'cd API && npm install'
             }
