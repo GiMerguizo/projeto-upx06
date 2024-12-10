@@ -6,6 +6,7 @@ pipeline {
                 sh 'ls'
                 sh 'npm install'
                 //sh 'echo N | ng analytics off'
+                sh 'npm install @angular/cli'
                 sh 'ng serve'
                 sh 'ls'
                 sh 'cd dist && ls'
