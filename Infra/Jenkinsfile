@@ -30,7 +30,7 @@ pipeline {
                     steps {
                         echo 'Realizando build do Frontend...'
                         sh 'pwd && ls'
-                        sh 'cd Front && pwd && ng serve'
+                        sh 'cd Front && pwd && npm install && ng serve'
                         // sh 'cd src && pwd'
                         // sh 'ng serve'
                     }
