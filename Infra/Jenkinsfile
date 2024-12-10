@@ -18,6 +18,7 @@ pipeline {
                 //sh 'npm install'
                 //sh 'sudo npm install -g @angular/cli'
                 sh 'cd Front/src'
+                sh 'pwd'
                 sh 'ng serve'
                 echo 'Build concluído!'
             }
