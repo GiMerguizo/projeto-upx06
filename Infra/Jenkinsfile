@@ -31,10 +31,11 @@ pipeline {
                         echo 'Realizando build do Frontend...'
                         sh 'pwd && ls'
                         sh 'cd Front && pwd'
-                        sh 'ls'
+                        sh 'cd src && pwd'
+                        sh 'ng serve'
                     }
                 }
-                stage('Build Backend') {
+                /*stage('Build Backend') {
                     steps {
                         echo 'Realizando build do Backend...'
                         sh 'ls && cd API && ls'
@@ -42,7 +43,7 @@ pipeline {
                         //sh 'npm install'
                         //sh 'node server.js'
                     }
-                }
+                }*/
             }
         }
         /*stage('Testar AWS CLI') {
